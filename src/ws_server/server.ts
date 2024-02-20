@@ -1,7 +1,8 @@
 import { WebSocketServer, WebSocket } from 'ws';
 import { Player } from '../types';
+import { playerRegistration } from './registration';
 
-// const players: Player[] = [];
+export const players: Player[] = [];
 
 export function websocketServer(PORT: number) {
   const wss = new WebSocketServer({ port: PORT });
@@ -13,16 +14,12 @@ export function websocketServer(PORT: number) {
       try {
         const { type, data, id } = JSON.parse(message);
         if (type === 'reg') {
-          userRegistration(type, data, id);
+          playerRegistration(type, data, id);
+          console.log(players);
         }
       } catch (error) {
-        throw console.error(error);
+        throw console.error('WebSocket error', error);
       }
     });
   });
-}
-
-function userRegistration(ws: WebSocket, data: Player, id: number) {
-  const { name, password } = JSON.parse(data.toString());
-  console.log(name, password, id);
 }

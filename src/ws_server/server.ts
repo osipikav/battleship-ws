@@ -1,8 +1,10 @@
 import { WebSocketServer, WebSocket } from 'ws';
-import { Player } from '../types';
+import { Player, Room } from '../types';
 import { playerRegistration } from './registration';
+import { updateRoom } from './createRoom';
 
 export const players: Player[] = [];
+export const rooms: Room[] = [];
 
 export function websocketServer(PORT: number) {
   const wss = new WebSocketServer({ port: PORT });
@@ -13,13 +15,24 @@ export function websocketServer(PORT: number) {
     ws.on('message', (message: string) => {
       try {
         const { type, data, id } = JSON.parse(message);
-        if (type === 'reg') {
-          playerRegistration(type, data, id);
-          console.log(players);
+        switch (type) {
+          case 'reg':
+            playerRegistration(ws, data, id);
+            break;
+          case 'create_room':
+            updateRoom(ws, id);
+            break;
+
+          default:
+            break;
         }
       } catch (error) {
-        throw console.error('WebSocket error', error);
+        // throw console.error('WebSocket error', error);
+        console.log('WebSocket error', error);
       }
+    });
+    ws.on('close', () => {
+      console.log('Server closed');
     });
   });
 }

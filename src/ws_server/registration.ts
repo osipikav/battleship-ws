@@ -24,12 +24,11 @@ export function playerRegistration(ws: WebSocket, data: Player, id: number) {
   };
   if (!error) players.push(newPlayer);
 
-  const index = playerId;
   const response = {
     type: 'reg',
     data: JSON.stringify({
       name,
-      index,
+      index: playerId,
       error,
       errorText,
     }),

@@ -1,10 +1,12 @@
 import { WebSocketServer, WebSocket } from 'ws';
-import { Player, Room } from '../types';
+import { Player, Room, Game } from '../types';
 import { playerRegistration } from './registration';
 import { updateRoom } from './createRoom';
+import { addUserToRoom } from './addUserToRoom';
 
 export const players: Player[] = [];
 export const rooms: Room[] = [];
+export const games: Game[] = [];
 
 export function websocketServer(PORT: number) {
   const wss = new WebSocketServer({ port: PORT });
@@ -21,6 +23,9 @@ export function websocketServer(PORT: number) {
             break;
           case 'create_room':
             updateRoom(ws, id);
+            break;
+          case 'add_user_to_room':
+            addUserToRoom(ws, data, id);
             break;
 
           default:

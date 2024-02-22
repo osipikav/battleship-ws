@@ -16,3 +16,8 @@ export interface Room {
     },
   ];
 }
+
+export interface Game {
+  idGame: number;
+  players: Player[];
+}

@@ -2,7 +2,7 @@ import { WebSocket } from 'ws';
 import { players, rooms, games } from './server';
 import { Game, Room, Player } from '../types';
 
-export const addUserToRoom = (wss: WebSocket, data: number, id: number) => {
+export function addUserToRoom(wss: WebSocket, data: number, id: number) {
   const { indexRoom } = JSON.parse(data.toString());
   const activeRoom: Room = rooms.find(
     (room) => room.roomId === indexRoom,
@@ -41,4 +41,4 @@ export const addUserToRoom = (wss: WebSocket, data: number, id: number) => {
     };
     waitingPlayer.ws.send(JSON.stringify(waitingData));
   }
-};
+}

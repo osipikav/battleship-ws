@@ -2,7 +2,7 @@ import { WebSocket } from 'ws';
 import { Room } from '../types';
 import { players, rooms } from './server';
 
-export const updateRoom = (wss: WebSocket, id: number) => {
+export function updateRoom(wss: WebSocket, id: number) {
   const playerToUpdate = players?.find((player) => wss === player.ws);
 
   if (playerToUpdate) {
@@ -20,8 +20,7 @@ export const updateRoom = (wss: WebSocket, id: number) => {
         id,
       };
 
-      console.log(response);
       player.ws.send(JSON.stringify(response));
     });
   }
-};
+}

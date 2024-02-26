@@ -40,3 +40,8 @@ interface Cordinates {
   x: number;
   y: number;
 }
+
+export interface Attack extends Cordinates {
+  gameId: number;
+  indexPlayer: number;
+}

@@ -4,6 +4,7 @@ import { playerRegistration } from './registration';
 import { updateRoom } from './createRoom';
 import { addUserToRoom } from './addUserToRoom';
 import { startGame } from './startGame';
+import { attack } from './attack';
 
 export const players: Player[] = [];
 export const rooms: Room[] = [];
@@ -32,13 +33,14 @@ export function websocketServer(PORT: number) {
           case 'add_ships':
             startGame(ws, data, id);
             break;
-
+          case 'attack':
+            attack(data, id);
+            break;
           default:
             break;
         }
       } catch (error) {
-        // throw console.error('WebSocket error', error);
-        console.log('WebSocket error', error);
+        throw console.error('WebSocket error', error);
       }
     });
     ws.on('close', () => {
